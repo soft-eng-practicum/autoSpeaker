@@ -1,4 +1,4 @@
-# autoSpeaker
+# Project: autoSpeaker
 
 ## Team Members
 <ol>
@@ -6,3 +6,6 @@
 <li>Sinna Uy : Lead Programmer & Tester</li>
 <li></li>
 </ol>
+
+## Repository Location
+[autoSpeaker Repository](https://github.com/soft-eng-practicum/autoSpeaker "autoSpeaker Repository")
