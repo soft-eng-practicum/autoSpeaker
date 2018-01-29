@@ -1,3 +1,8 @@
 # autoSpeaker
-## This is a test.
-## Luca test
+
+## Team Members.
+<ol>
+<li>Henry Huynh : Client Liaison</li>
+<li></li>
+<li></li>
+</ol>
