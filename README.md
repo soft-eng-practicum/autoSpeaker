@@ -1,8 +1,8 @@
 # autoSpeaker
 
-## Team Members.
+## Team Members
 <ol>
-<li>Henry Huynh : Client Liaison</li>
+<li>Henry Huynh : Client Liaison & UI/UX Design</li>
 <li>Sinna Uy : Lead Programmer & Tester</li>
 <li></li>
 </ol>
