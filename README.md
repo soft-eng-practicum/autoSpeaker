@@ -3,7 +3,7 @@
 ## Team Members and Roles
 <ol>
     <li>Henry Huynh : Client Liaison & UI/UX Design</li>
-    <li><b>Sinna Uy : Lead Programmer & Tester<b></li> :panda_face:
+    <li><b>Sinna Uy : Lead Programmer & Tester<b>:panda_face:</li>
     <li>Brian Torok : Documentation Lead & Team Manager</li>
     <li>Gianluca Parilli : UI/UX Developer & Code Architecture</li>    
 </ol>
