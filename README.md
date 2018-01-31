@@ -2,7 +2,7 @@
 
 ## Team Members and Roles
 <ol>
-    <li>Henry Huynh : Client Liaison & UI/UX Design</li>
+    <li>Henry Huynh : Client Liaison & UI/UX Design</li> :expressionless:
     <li>Sinna Uy : Lead Programmer & Tester</li>
     <li>Brian Torok : Documentation Lead & Team Manager</li>
     <li></li>    
