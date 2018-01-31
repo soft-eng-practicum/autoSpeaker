@@ -4,7 +4,7 @@
 <ol>
     <li>Henry Huynh : Client Liaison & UI/UX Design</li>
     <li>Sinna Uy : Lead Programmer & Tester</li>
-    <li></li>
+    <li>Brian Torok : Documentation Lead & Team Manager</li>
     <li></li>    
 </ol>
 
