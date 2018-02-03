@@ -2,8 +2,8 @@
 
 ## Team Members and Roles
 <ol>
-    <li>Henry Huynh : Client Liaison & UI/UX Design</li>
-    <li>Sinna Uy : Lead Programmer & Tester</li>
+    <li><b>Henry Huynh : <i>Client Liaison & UI/UX Design</i>:iphone::computer:</b></li>
+    <li><b>Sinna Uy : Lead Programmer & Tester</b>:panda_face:</li>
     <li>Brian Torok : Documentation Lead & Team Manager</li>
     <li>Gianluca Parilli : UI/UX Developer & Code Architecture</li>    
 </ol>
