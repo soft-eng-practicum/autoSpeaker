@@ -5,7 +5,7 @@
     <li><b>Henry Huynh : <i>Client Liaison & UI/UX Design</i>:iphone::computer:</b></li>
     <li><b>Sinna Uy : Lead Programmer & Tester</b>:panda_face:</li>
     <li>Brian Torok : Documentation Lead & Team Manager</li>
-    <li>Gianluca Parilli : UI/UX Developer & Code Architecture</li>    
+    <li><b>Gianluca Parilli : UI/UX Developer & Code Architecture</b>:sunglasses:</li>    
 </ol>
 
 ## Repository Location
