@@ -1,5 +1,6 @@
 package gluka.autospeakerphone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +15,13 @@ import android.widget.Toast;
 import android.media.AudioManager;
 
 public class MainActivity extends AppCompatActivity {
-    Intent serviceIntent;
     AudioManager audioManager;
     boolean isSpeakerphoneOn;
+
+    Context context;
+    Intent intent;
+
+    PhoneStateListener phoneStateListener = new PhoneStateListener();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(favorite);
             }
         });
+
         //messing with the switch
         tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -50,8 +56,13 @@ public class MainActivity extends AppCompatActivity {
                 isSpeakerphoneOn = isChecked;
                 if(isChecked){
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
+
                     //Set Speakerphone On
-                    audioManager.setSpeakerphoneOn(isChecked);
+                    //audioManager.setSpeakerphoneOn(isChecked);
+
+                    // Listens to phone state when switch is turn on
+                    phoneStateListener.onReceive(context,intent);
+
                     Log.d("Switch in progress","true");
                 }
                 else if(isChecked==false){

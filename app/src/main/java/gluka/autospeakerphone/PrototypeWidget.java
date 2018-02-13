@@ -59,7 +59,7 @@ public class PrototypeWidget extends AppWidgetProvider {
     }
 
     static void updateAppWidgets(Context context) {
-        
+
     }
 
     // onEnabled() is called when the widget is first dragged into the home screen
@@ -75,6 +75,12 @@ public class PrototypeWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
         Log.i("Progress : onDisabled()", "Widget is dragged into the trash can");
+
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
 
     }
 }

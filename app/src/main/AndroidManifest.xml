@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gluka.autospeakerphone">
 
+    <!--Permission to modify audio settings-->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <!-- Permission to read phone's state -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--Speakerphone Permission for AudioManager-->
@@ -22,7 +24,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".PrototypeWidget">
+        <receiver android:name=".PhoneStateListener">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"></action>
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
