@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     Intent intent;
 
+    // Object of PhoneStateListener class
     PhoneStateListener phoneStateListener = new PhoneStateListener();
 
     @Override
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     //Set Speakerphone Off
                     audioManager.setSpeakerphoneOn(isChecked);
                     Log.d("Switch in progress","false");
+
                 }
             }
         });
