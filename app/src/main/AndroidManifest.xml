@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gluka.autospeakerphone">
 
+    <!-- Permission to read phone's state -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--Speakerphone Permission for AudioManager-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />

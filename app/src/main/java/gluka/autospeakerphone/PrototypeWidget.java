@@ -30,10 +30,9 @@ public class PrototypeWidget extends AppWidgetProvider {
          }
          */
 
-        final int N = appWidgetIds.length;
 
         // Perform this loop procedure for each App Widget that belongs to this provider
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < appWidgetIds.length; i++) {
             int appWidgetId = appWidgetIds[i];
 
             // Create an Intent to launch ExampleActivity
@@ -60,17 +59,23 @@ public class PrototypeWidget extends AppWidgetProvider {
     }
 
     static void updateAppWidgets(Context context) {
+        
     }
 
+    // onEnabled() is called when the widget is first dragged into the home screen
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        Log.i("Progress : onEnabled()", "Widget is dragged into the home screen");
 
     }
 
+    // onDisabled() is called when the widget is dragged into the trash can
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+        Log.i("Progress : onDisabled()", "Widget is dragged into the trash can");
+
     }
 }
 
