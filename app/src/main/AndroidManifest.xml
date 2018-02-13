@@ -3,7 +3,7 @@
     package="gluka.autospeakerphone">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    //Speakerphone Permission for AudioManager
+    <!--Speakerphone Permission for AudioManager-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
