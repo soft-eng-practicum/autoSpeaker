@@ -1,8 +1,8 @@
 package gluka.autospeakerphone;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
-import android.media.AudioManager;
 
 public class MainActivity extends AppCompatActivity {
     AudioManager audioManager;
@@ -51,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //messing with the switch
+        tb.setChecked(true);
         tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
 
                     //Set Speakerphone On
-                    //audioManager.setSpeakerphoneOn(isChecked);
+                    audioManager.setSpeakerphoneOn(true);
 
                     // Listens to phone state when switch is turn on
                    phoneStateListener.onReceive(context,intent);
@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 else if(isChecked==false){
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
-                    audioManager.setSpeakerphoneOn(isChecked);
+                    audioManager.setSpeakerphoneOn(false);
+                    phoneStateListener.onReceive(context,intent);
+
                     Log.d("Switch in progress","false");
 
                 }
