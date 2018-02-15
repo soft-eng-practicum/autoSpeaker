@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     Intent intent;
 
-    // Object of PhoneStateListener class
     PhoneStateListener phoneStateListener = new PhoneStateListener();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         //testing without sim card in my phone -- it works
         if(TelephonyManager.SIM_STATE_ABSENT ==1 )
-           Toast.makeText(getApplicationContext(),"no sim",Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(),"No Sim",Toast.LENGTH_SHORT).show();
 
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
                     //audioManager.setSpeakerphoneOn(isChecked);
 
                     // Listens to phone state when switch is turn on
-                    phoneStateListener.onReceive(context,intent);
+                   phoneStateListener.onReceive(context,intent);
 
                     Log.d("Switch in progress","true");
+
                 }
                 else if(isChecked==false){
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();

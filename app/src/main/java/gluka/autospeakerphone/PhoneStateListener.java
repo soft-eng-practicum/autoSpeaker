@@ -13,8 +13,9 @@ import android.util.Log;
 
 public class PhoneStateListener extends BroadcastReceiver {
 
-    AudioManager audioManager;
+    Context context;
 
+    AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,21 +29,30 @@ public class PhoneStateListener extends BroadcastReceiver {
             }
             // Listens to when phone is answered
             if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))){
-                Log.i("Progress", "Call Answered");
-
                 // These are not working for some reason
-                AudioManager audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-                audioManager.setMode(AudioManager.MODE_NORMAL);
-                audioManager.setSpeakerphoneOn(true);
+                speakerOn();
 
+                Log.i("Progress", "Call Answered");
             }
             // When call is ended
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+                audioManager.setMode(AudioManager.MODE_NORMAL);
+                speakerOff();
                 Log.i("Progress", "Call ended");
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void speakerOn() {
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        audioManager.setSpeakerphoneOn(true);
+    }
+
+    public void speakerOff() {
+        audioManager.setMode(AudioManager.MODE_NORMAL);
+        audioManager.setSpeakerphoneOn(false);
     }
 }
