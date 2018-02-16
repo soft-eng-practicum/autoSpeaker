@@ -1,87 +1,85 @@
 package gluka.autospeakerphone;
 
+import android.app.Activity;
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.util.Log;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Implementation of App Widget functionality.
  */
-public class PrototypeWidget extends AppWidgetProvider {
-
-    ImageView speaker;
-    MainActivity mainActivity = new MainActivity();
+public class PrototypeWidget extends AppWidgetProvider
+{
+    public static final String IS_SPEAKERPHONEON="MyPref";
+    AudioManager audioManager;
+    boolean isSpeakerphoneOn;
 
     @Override
-    public void onUpdate(final Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onReceive(Context context, Intent intent)
+    {
+        switchToggle(context, intent);
+        super.onReceive(context, intent);
+    }
 
-        // There may be multiple widgets active, so update all of them
-        /**
-         for (int appWidgetId : appWidgetIds) {
-         updateAppWidget(context, appWidgetManager, appWidgetId);
-         }
-         */
-
-
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
         // Perform this loop procedure for each App Widget that belongs to this provider
-        for (int i = 0; i < appWidgetIds.length; i++) {
-            int appWidgetId = appWidgetIds[i];
-
-            // Create an Intent to launch ExampleActivity
+        for (int widgetId : appWidgetIds)
+        {
+            // Create an Intent to launch Activity
             Intent intent = new Intent(context, PrototypeWidget.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.prototype_widget);
-            views.setOnClickPendingIntent(R.id.imageView, pendingIntent);
-
-            if(mainActivity.isSpeakerphoneOn) {
-                //mainActivity.audioManager.setSpeakerphoneOn(true);
-                Log.d("AppWidget in progress","true");
-            }
-            else if(mainActivity.isSpeakerphoneOn == false) {
-                //mainActivity.audioManager.setSpeakerphoneOn(false);
-                Log.d("AppWidget in progress","false");
-            }
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
+            remoteViews.setOnClickPendingIntent(R.id.imageView, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
     }
-
-    static void updateAppWidgets(Context context) {
-
-    }
-
-    // onEnabled() is called when the widget is first dragged into the home screen
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-        Log.i("Progress : onEnabled()", "Widget is dragged into the home screen");
-
-    }
-
-    // onDisabled() is called when the widget is dragged into the trash can
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-        Log.i("Progress : onDisabled()", "Widget is dragged into the trash can");
-
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-
+    // Switch method that toggles speakerphone on/off
+    private void switchToggle(Context context, Intent intent)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        isSpeakerphoneOn = sharedPreferences.getBoolean(IS_SPEAKERPHONEON, false);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
+        Log.d(TAG,"Toggle State: " + isSpeakerphoneOn);
+        if (isSpeakerphoneOn)
+        {
+            // AppWidget speaker image on
+            remoteViews.setImageViewResource(R.id.imageView, R.drawable.autospeakerlogo);
+            // Set speakerphone on
+            audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+        }
+        else
+        {
+            // AppWidget speaker image on
+            remoteViews.setImageViewResource(R.id.imageView, R.drawable.autospeakerlogo);
+            // Set speakerphone Off
+            audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+        }
+        ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
+        AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
+        isSpeakerphoneOn = !isSpeakerphoneOn;
+        // Commit changes to SharedPreference
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(IS_SPEAKERPHONEON, isSpeakerphoneOn);
+        editor.commit();
     }
 }
 
