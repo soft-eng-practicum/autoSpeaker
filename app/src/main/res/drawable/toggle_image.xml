@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-        android:drawable="@drawable/autoon" /> <!-- pressed -->
+        android:drawable="@drawable/autospeakeron" /> <!-- pressed -->
     <item android:state_pressed="false"
-        android:drawable="@drawable/autooff" /> <!-- focused -->
+        android:drawable="@drawable/autospeakeroff" /> <!-- focused -->
 </selector>

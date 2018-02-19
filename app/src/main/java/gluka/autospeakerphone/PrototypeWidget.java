@@ -58,14 +58,14 @@ public class PrototypeWidget extends AppWidgetProvider
         if (isSpeakerphoneOn)
         {
             // AppWidget speaker image on
-            remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autoon);
+            remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
             // Set speakerphone on
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
         }
         else
         {
             // AppWidget speaker image on
-            remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autooff);
+            remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
             // Set speakerphone Off
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
         }
