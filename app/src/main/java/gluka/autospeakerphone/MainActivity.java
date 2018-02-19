@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     Bundle switchBundle = new Bundle();
     boolean isSpeakerOn =true;
 
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -63,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         //messing with the switch
         switch1.setChecked(isSpeakerOn);
+        speakerphoneSwitch(switch1);
+        /**
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     audioManager.setSpeakerphoneOn(true);
                     isSpeakerOn = true;
                     // Listens to phone state when switch is turn on
-                   phoneStateListener.onReceive(context,intent);
+                    phoneStateListener.onReceive(context,intent);
                     //savedInstanceState.putBoolean("switchKey", true);
 
                     Log.d("states", "switch ON  "+isSpeakerOn);
@@ -88,15 +89,13 @@ public class MainActivity extends AppCompatActivity {
                     phoneStateListener.onReceive(context,intent);
                     //savedInstanceState.putBoolean("switchKey", false);
 
-                    Log.d("states", "switchOFF "+isSpeakerOn);
+                    Log.d("states", "switch OFF "+isSpeakerOn);
 
                 }
             }
         });
+         */
     }
-
-
-
 
     @Override
     protected void onSaveInstanceState(Bundle saveInstanceState) {
@@ -107,5 +106,34 @@ public class MainActivity extends AppCompatActivity {
        super.onSaveInstanceState(saveInstanceState);
     }
 
+    // Speakerphone switch method
+    public void speakerphoneSwitch(Switch switch1) {
 
+        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isSpeakerphoneOn = isChecked;
+                PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
+                if(isChecked){
+                    Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
+
+                    //Set Speakerphone On
+                    audioManager.setSpeakerphoneOn(true);
+                    isSpeakerOn = true;
+                    // Listens to phone state when switch is turn on
+                    phoneStateListener.onReceive(context,intent);
+                    //savedInstanceState.putBoolean("switchKey", true);
+                    Log.d("states", "switch ON  "+isSpeakerOn);
+                }
+                else if(isChecked==false){
+                    Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
+                    //Set Speakerphone Off
+                    audioManager.setSpeakerphoneOn(false);
+                    phoneStateListener.onReceive(context,intent);
+                    //savedInstanceState.putBoolean("switchKey", false);
+                    Log.d("states", "switch OFF "+isSpeakerOn);
+                }
+            }
+        });
+    }
 }
