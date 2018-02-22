@@ -2,10 +2,11 @@ package gluka.autospeakerphone;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
     Intent intent;
-    //boolean switch1 = false;
     PhoneStateListener phoneStateListener = new PhoneStateListener();
     Switch switch1;
-    //bundle used to ssave state of switch
-    Bundle switchBundle = new Bundle();
-    boolean isSpeakerOn =true;
+    boolean isSpeakerOn = true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,25 +30,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button favList = (Button)findViewById(R.id.favList);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch1 = (Switch)findViewById(R.id.switch1);
-        Log.d("states", "onCreate: switch " + isSpeakerOn);
+        Log.d("states", "onCreate: switch boot pref " + prefs.getBoolean("switchKey",true));
         //Required to set Speakerphone On/Off
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            boolean saved = savedInstanceState.getBoolean("switchKey");
-            isSpeakerOn = saved;
-            Log.d("states", "onCreate: " + saved + " " +isSpeakerOn);
-
-        }
 
         // call the service with all the telephony stuff
         startService(new Intent(this,TelephonyService.class));
 
-        //testing without sim card in my phone -- it works
-        if(TelephonyManager.SIM_STATE_ABSENT ==1 )
-           Toast.makeText(getApplicationContext(),"No Sim",Toast.LENGTH_SHORT).show();
 
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,53 +50,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //messing with the switch
-        switch1.setChecked(isSpeakerOn);
-        speakerphoneSwitch(switch1);
-        /**
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isSpeakerphoneOn = isChecked;
-                if(isChecked){
-                    Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
-
-                    //Set Speakerphone On
-                    audioManager.setSpeakerphoneOn(true);
-                    isSpeakerOn = true;
-                    // Listens to phone state when switch is turn on
-                    phoneStateListener.onReceive(context,intent);
-                    //savedInstanceState.putBoolean("switchKey", true);
-
-                    Log.d("states", "switch ON  "+isSpeakerOn);
-
-
-                }
-                else if(isChecked==false){
-                    Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
-                    //Set Speakerphone Off
-                    audioManager.setSpeakerphoneOn(false);
-                    phoneStateListener.onReceive(context,intent);
-                    //savedInstanceState.putBoolean("switchKey", false);
-
-                    Log.d("states", "switch OFF "+isSpeakerOn);
-
-                }
-            }
-        });
-         */
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle saveInstanceState) {
-
-        saveInstanceState.putBoolean("switchKey", switch1.isChecked());
-       Log.d("states", "onSaveInstanceState: " + saveInstanceState.get("switchKey"));
-      // switchBundle.putBoolean("switchKey1", switch1.isChecked());
-       super.onSaveInstanceState(saveInstanceState);
+        switch1.setChecked(prefs.getBoolean("switchKey",true));
+        //call speaker method with switch and preferences as params
+        speakerphoneSwitch(switch1,prefs);
     }
 
     // Speakerphone switch method
-    public void speakerphoneSwitch(Switch switch1) {
+    public void speakerphoneSwitch(Switch switch1,final SharedPreferences prefs) {
 
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -116,24 +65,30 @@ public class MainActivity extends AppCompatActivity {
                 PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
                 if(isChecked){
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
-
                     //Set Speakerphone On
                     audioManager.setSpeakerphoneOn(true);
                     isSpeakerOn = true;
+                //save state onto the phone hdd, not ram
+                    prefs.edit().putBoolean("switchKey", true).commit();
+                    prefs.edit().apply();
+                    isSpeakerOn = prefs.getBoolean("switchKey",true);
+                    Log.d("states", "switchON pref "+ isSpeakerOn);
                     // Listens to phone state when switch is turn on
                     phoneStateListener.onReceive(context,intent);
-                    //savedInstanceState.putBoolean("switchKey", true);
-                    Log.d("states", "switch ON  "+isSpeakerOn);
                 }
                 else if(isChecked==false){
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
                     audioManager.setSpeakerphoneOn(false);
                     phoneStateListener.onReceive(context,intent);
-                    //savedInstanceState.putBoolean("switchKey", false);
-                    Log.d("states", "switch OFF "+isSpeakerOn);
+                    //save state onto the phone hdd, not ram
+                    prefs.edit().putBoolean("switchKey", false).commit();
+                    prefs.edit().apply();
+                    isSpeakerOn = prefs.getBoolean("switchKey",false);
+                    Log.d("states", "switchOFF pref "+ isSpeakerOn);
                 }
             }
         });
     }
+
 }
