@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
-
 import static android.content.ContentValues.TAG;
 
 /**
@@ -18,10 +18,12 @@ import static android.content.ContentValues.TAG;
  */
 public class PrototypeWidget extends AppWidgetProvider
 {
-    AudioManager audioManager;
-    boolean isSpeakerphoneOn;
-    static boolean isAppWidgetOn;
-    static boolean adjustSwitch = true;
+    private AudioManager audioManager;
+    private SharedPreferences sharedPreferences;
+    private boolean isSpeakerphoneOn = true;
+    private static boolean isAppWidgetOn;
+    private static boolean adjustSwitch = false;
+    private static boolean intiSpeakerOn = true;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -50,8 +52,13 @@ public class PrototypeWidget extends AppWidgetProvider
         }
     }
 
-    // MainActivity Switch uses this method to toggle AppWidget
-    public static void updateWidgets(Context context, boolean isSpeakerOn) {
+    /**
+     * MainActivity updates appwidget
+     * @param context
+     * @param isSpeakerOn
+     */
+    protected static void updateWidgets(Context context, boolean isSpeakerOn)
+    {
         adjustSwitch = true;
         isAppWidgetOn = isSpeakerOn;
         Log.d("updateWidget: ", isAppWidgetOn + "");
@@ -61,14 +68,33 @@ public class PrototypeWidget extends AppWidgetProvider
         context.sendBroadcast(intent);
     }
 
-    // Switch method that toggles speakerphone on/off
-    private void appSwitch(Context context, Intent intent)
+    /**
+     * Initial start up ON then generates OFF/ON
+     * @param context
+     * @return
+     */
+    protected boolean generateSwitch(Context context)
     {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        isSpeakerphoneOn = sharedPreferences.getBoolean("", true);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if(intiSpeakerOn)
+        {
+            isSpeakerphoneOn = true;
+            intiSpeakerOn = false;
+            Log.d(TAG,"BEFORE AppWidget State: " + isSpeakerphoneOn);
+        }
+        else if(intiSpeakerOn == false)
+        {
+            isSpeakerphoneOn = sharedPreferences.getBoolean("", true);
+            Log.d(TAG,"AFTER AppWidget State: " + isSpeakerphoneOn);
+        }
+        return isSpeakerphoneOn;
+    }
 
-        // MainActivity switches appwidget ON/OFF
+    /**
+     * MainActivity switch controller
+     */
+    private void mainSwitchControl()
+    {
         if(isAppWidgetOn && adjustSwitch)
         {
             isSpeakerphoneOn = isAppWidgetOn;
@@ -79,9 +105,20 @@ public class PrototypeWidget extends AppWidgetProvider
             isSpeakerphoneOn = isAppWidgetOn;
             adjustSwitch = false;
         }
+    }
 
+    /**
+     * Switch method that toggles appwidget speakerphone on/off
+     * @param context
+     * @param intent
+     */
+    protected void appSwitch(Context context, Intent intent)
+    {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
-        Log.d(TAG,"Toggle State: " + isSpeakerphoneOn);
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        isSpeakerphoneOn = generateSwitch(context);
+        mainSwitchControl();
         if (isSpeakerphoneOn)
         {
             // AppWidget speaker image on
@@ -96,7 +133,6 @@ public class PrototypeWidget extends AppWidgetProvider
             // Set speakerphone Off
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
         }
-
         ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
         AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
         isSpeakerphoneOn = !isSpeakerphoneOn;

@@ -13,26 +13,27 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
-    AudioManager audioManager;
-    boolean isSpeakerphoneOn;
-
-    Context context;
-    Intent intent;
-    PhoneStateListener phoneStateListener = new PhoneStateListener();
-    Switch switch1;
-    boolean isSpeakerOn = true;
+    private static AudioManager audioManager;
+    private static boolean isSpeakerphoneOn;
+    private Context context;
+    private Intent intent;
+    private PhoneStateListener phoneStateListener = new PhoneStateListener();
+    private Switch switch1;
+    private boolean isSpeakerOn = true;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState)
+    {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button favList = (Button)findViewById(R.id.favList);
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch1 = (Switch)findViewById(R.id.switch1);
-        Log.d("states", "onCreate: switch boot pref " + prefs.getBoolean("switchKey",true));
+        Log.d(TAG, "onCreate State: " + prefs.getBoolean("switchKey",true));
         //Required to set Speakerphone On/Off
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
@@ -55,40 +56,60 @@ public class MainActivity extends AppCompatActivity {
         speakerphoneSwitch(switch1,prefs);
     }
 
-    // Speakerphone switch method
-    public void speakerphoneSwitch(Switch switch1,final SharedPreferences prefs) {
+    /**
+     * Set speakerphone status
+     * @param isChecked
+     */
+    protected static void setSpeaker(boolean isChecked)
+    {
+        audioManager.setSpeakerphoneOn(isChecked);
+        isSpeakerphoneOn = isChecked;
+    }
 
+    /**
+     * Get speakerphone status
+     * @return
+     */
+    protected static boolean getSpeaker()
+    {
+        return isSpeakerphoneOn;
+    }
+
+    /**
+     * Speakerphone switch method
+     * @param switch1
+     * @param prefs
+     */
+    protected void speakerphoneSwitch(Switch switch1,final SharedPreferences prefs)
+    {
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isSpeakerphoneOn = isChecked;
                 PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
                 if(isChecked){
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone On
-                    audioManager.setSpeakerphoneOn(true);
-                    isSpeakerOn = true;
-                //save state onto the phone hdd, not ram
+                    setSpeaker(isChecked);
+                    //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).commit();
                     prefs.edit().apply();
                     isSpeakerOn = prefs.getBoolean("switchKey",true);
-                    Log.d("states", "switchON pref "+ isSpeakerOn);
+                    Log.d(TAG, "MainSwitch State: " + getSpeaker());
                     // Listens to phone state when switch is turn on
                     phoneStateListener.onReceive(context,intent);
                 }
                 else if(isChecked==false){
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
-                    audioManager.setSpeakerphoneOn(false);
+                    setSpeaker(isChecked);
                     phoneStateListener.onReceive(context,intent);
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).commit();
                     prefs.edit().apply();
                     isSpeakerOn = prefs.getBoolean("switchKey",false);
-                    Log.d("states", "switchOFF pref "+ isSpeakerOn);
+                    Log.d(TAG, "MainSwitch State: "+ getSpeaker());
                 }
             }
         });
     }
-
 }
