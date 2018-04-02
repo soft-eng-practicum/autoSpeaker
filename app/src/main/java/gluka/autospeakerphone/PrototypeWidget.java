@@ -19,11 +19,13 @@ import static android.content.ContentValues.TAG;
 public class PrototypeWidget extends AppWidgetProvider
 {
     private AudioManager audioManager;
-    private SharedPreferences sharedPreferences;
-    private boolean isSpeakerphoneOn = true;
-    private static boolean isAppWidgetOn;
+    private static SharedPreferences prefs;
+    private static boolean isSpeakerphoneOn = true;
+    private static boolean isAppWidgetOn = true;
+    private static boolean isSwitchOn = false;
     private static boolean adjustSwitch = false;
     private static boolean intiSpeakerOn = true;
+    private RemoteViews remoteViews;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -35,16 +37,17 @@ public class PrototypeWidget extends AppWidgetProvider
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
     {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        remoteViews = new RemoteViews(context.getPackageName(), R.layout.prototype_widget);
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int widgetId : appWidgetIds)
         {
             // Create an Intent to launch Activity
             Intent intent = new Intent(context, PrototypeWidget.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
+            //RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
             remoteViews.setOnClickPendingIntent(R.id.imageButton, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget
@@ -61,7 +64,7 @@ public class PrototypeWidget extends AppWidgetProvider
     {
         adjustSwitch = true;
         isAppWidgetOn = isSpeakerOn;
-        Log.d("updateWidget: ", isAppWidgetOn + "");
+        Log.d(TAG, "updateWidgets State: " + isAppWidgetOn);
         Intent intent = new Intent(context, PrototypeWidget.class);
         intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
         intent.putExtra("appWidgetIds", AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, PrototypeWidget.class)));
@@ -73,20 +76,18 @@ public class PrototypeWidget extends AppWidgetProvider
      * @param context
      * @return
      */
-    protected boolean generateSwitch(Context context)
+    protected static boolean generateSwitch(Context context)
     {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        isSpeakerphoneOn = prefs.getBoolean("", true);
+        isSwitchOn = isSpeakerphoneOn;
         if(intiSpeakerOn)
         {
             isSpeakerphoneOn = true;
             intiSpeakerOn = false;
-            Log.d(TAG,"BEFORE AppWidget State: " + isSpeakerphoneOn);
         }
-        else if(intiSpeakerOn == false)
-        {
-            isSpeakerphoneOn = sharedPreferences.getBoolean("", true);
-            Log.d(TAG,"AFTER AppWidget State: " + isSpeakerphoneOn);
-        }
+        Log.d(TAG,"generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
+        Log.d(TAG,"generateSwitch State: isSwitchOn = " + isSwitchOn);
         return isSpeakerphoneOn;
     }
 
@@ -114,11 +115,12 @@ public class PrototypeWidget extends AppWidgetProvider
      */
     protected void appSwitch(Context context, Intent intent)
     {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         isSpeakerphoneOn = generateSwitch(context);
         mainSwitchControl();
+
         if (isSpeakerphoneOn)
         {
             // AppWidget speaker image on
@@ -126,7 +128,7 @@ public class PrototypeWidget extends AppWidgetProvider
             // Set speakerphone on
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
         }
-        else
+        else if (!isSpeakerphoneOn)
         {
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
@@ -137,9 +139,12 @@ public class PrototypeWidget extends AppWidgetProvider
         AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
         isSpeakerphoneOn = !isSpeakerphoneOn;
         // Commit changes to SharedPreference
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("", isSpeakerphoneOn);
-        editor.commit();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("widgetKey", isSpeakerphoneOn);
+        editor.putBoolean("switchKey", isSwitchOn);
+        editor.apply();
+
+
     }
 }
 
