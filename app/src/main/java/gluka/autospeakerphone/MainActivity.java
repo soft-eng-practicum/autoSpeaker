@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Initialize 'switchKey = True' only once
+        Log.d(TAG, "onCreate State: intiSpeakerOn = " + intiSpeakerOn);
         if(intiSpeakerOn)
         {
             switch1.setChecked(setChecked);
@@ -94,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
-                WidgetUpdateService widgetService = new WidgetUpdateService();
+                //WidgetUpdateService widgetService = new WidgetUpdateService();
                 if(isChecked){
 
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone On
                     setSpeaker(isChecked);
-                    widgetService.widgetON();
+                    //widgetService.widgetON();
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).apply();
                     //prefs.edit().putBoolean("", true).apply();
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
                     setSpeaker(isChecked);
-                    widgetService.widgetOFF();
+                    //widgetService.widgetOFF();
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).apply();
                     //prefs.edit().putBoolean("", false).apply();
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onPostResume State: " + betweenSwitch);
     }
 
+    /**
     public class WidgetUpdateService extends Service {
         PrototypeWidget widget = new PrototypeWidget();
         //SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -169,4 +171,5 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+        */
 }

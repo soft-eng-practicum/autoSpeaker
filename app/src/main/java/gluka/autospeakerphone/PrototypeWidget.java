@@ -22,7 +22,7 @@ public class PrototypeWidget extends AppWidgetProvider
     private static SharedPreferences prefs;
     private static boolean isSpeakerphoneOn = true;
     private static boolean isAppWidgetOn = true;
-    private static boolean isSwitchOn = false;
+    private static boolean isSwitchOn;
     private static boolean adjustSwitch = false;
     private static boolean intiSpeakerOn = true;
     private RemoteViews remoteViews;
@@ -79,15 +79,23 @@ public class PrototypeWidget extends AppWidgetProvider
     protected static boolean generateSwitch(Context context)
     {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+
         isSpeakerphoneOn = prefs.getBoolean("", true);
+        Log.d(TAG,"generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
         isSwitchOn = isSpeakerphoneOn;
+        Log.d(TAG,"generateSwitch State: isSwitchOn = " + isSwitchOn);
+        /**
+        Log.d(TAG,"BEFORE generateSwitch State: intiSpeakerOn = " + intiSpeakerOn);
         if(intiSpeakerOn)
         {
             isSpeakerphoneOn = true;
+            isSwitchOn = isSpeakerphoneOn;
             intiSpeakerOn = false;
         }
-        Log.d(TAG,"generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
-        Log.d(TAG,"generateSwitch State: isSwitchOn = " + isSwitchOn);
+        Log.d(TAG,"AFTER generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
+        Log.d(TAG,"AFTER generateSwitch State: isSwitchOn = " + isSwitchOn);
+         */
         return isSpeakerphoneOn;
     }
 
@@ -118,18 +126,25 @@ public class PrototypeWidget extends AppWidgetProvider
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        isSpeakerphoneOn = generateSwitch(context);
+        //isSpeakerphoneOn = generateSwitch(context);
+        isSpeakerphoneOn = prefs.getBoolean("", true);
+        Log.d(TAG,"appSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
+
         mainSwitchControl();
 
         if (isSpeakerphoneOn)
         {
+            isSwitchOn = true;
+            Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
             // Set speakerphone on
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
         }
-        else if (!isSpeakerphoneOn)
+        else if (isSpeakerphoneOn == false)
         {
+            isSwitchOn = false;
+            Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
             // Set speakerphone Off
@@ -140,11 +155,9 @@ public class PrototypeWidget extends AppWidgetProvider
         isSpeakerphoneOn = !isSpeakerphoneOn;
         // Commit changes to SharedPreference
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("widgetKey", isSpeakerphoneOn);
+        editor.putBoolean("", isSpeakerphoneOn);
         editor.putBoolean("switchKey", isSwitchOn);
         editor.apply();
-
-
     }
 }
 
