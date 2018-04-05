@@ -26,6 +26,7 @@ public class PrototypeWidget extends AppWidgetProvider
     private static boolean adjustSwitch = false;
     private static boolean intiSpeakerOn = true;
     private RemoteViews remoteViews;
+    private static boolean setChecked = true;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -49,7 +50,6 @@ public class PrototypeWidget extends AppWidgetProvider
             // to the button
             //RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
             remoteViews.setOnClickPendingIntent(R.id.imageButton, pendingIntent);
-
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
@@ -79,23 +79,8 @@ public class PrototypeWidget extends AppWidgetProvider
     protected static boolean generateSwitch(Context context)
     {
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-
-        isSpeakerphoneOn = prefs.getBoolean("", true);
-        Log.d(TAG,"generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
-        isSwitchOn = isSpeakerphoneOn;
-        Log.d(TAG,"generateSwitch State: isSwitchOn = " + isSwitchOn);
-        /**
-        Log.d(TAG,"BEFORE generateSwitch State: intiSpeakerOn = " + intiSpeakerOn);
-        if(intiSpeakerOn)
-        {
-            isSpeakerphoneOn = true;
-            isSwitchOn = isSpeakerphoneOn;
-            intiSpeakerOn = false;
-        }
-        Log.d(TAG,"AFTER generateSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
-        Log.d(TAG,"AFTER generateSwitch State: isSwitchOn = " + isSwitchOn);
-         */
+        isSpeakerphoneOn = prefs.getBoolean("", setChecked);
+        Log.d(TAG,"appSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
         return isSpeakerphoneOn;
     }
 
@@ -126,12 +111,8 @@ public class PrototypeWidget extends AppWidgetProvider
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        //isSpeakerphoneOn = generateSwitch(context);
-        isSpeakerphoneOn = prefs.getBoolean("", true);
-        Log.d(TAG,"appSwitch State: isSpeakerphoneOn = " + isSpeakerphoneOn);
-
+        isSpeakerphoneOn = generateSwitch(context);
         mainSwitchControl();
-
         if (isSpeakerphoneOn)
         {
             isSwitchOn = true;

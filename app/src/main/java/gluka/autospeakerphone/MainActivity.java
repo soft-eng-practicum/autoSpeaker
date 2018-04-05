@@ -1,14 +1,11 @@
 package gluka.autospeakerphone;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate State: " + setChecked);
         //Required to set Speakerphone On/Off
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-
         // call the service with all the telephony stuff
         startService(new Intent(this,TelephonyService.class));
         favList.setOnClickListener(new View.OnClickListener() {
@@ -53,14 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(favorite);
             }
         });
-
         // Initialize 'switchKey = True' only once
-        Log.d(TAG, "onCreate State: intiSpeakerOn = " + intiSpeakerOn);
-        if(intiSpeakerOn)
-        {
-            switch1.setChecked(setChecked);
-            intiSpeakerOn = false;
-        }
+        switch1.setChecked(setChecked);
         //call speaker method with switch and preferences as params
         speakerphoneSwitch(switch1,prefs);
     }
@@ -95,18 +85,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
-                //WidgetUpdateService widgetService = new WidgetUpdateService();
                 if(isChecked){
 
                     Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone On
                     setSpeaker(isChecked);
-                    //widgetService.widgetON();
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).apply();
-                    //prefs.edit().putBoolean("", true).apply();
-                    //prefs.edit().apply();
-                    //isSpeakerOn = prefs.getBoolean("switchKey",true);
                     // Listens to phone state when switch is turn ON
                     //phoneStateListener.onReceive(context,intent);
                     Log.d(TAG, "MainSwitch State: " + getSpeaker());
@@ -116,12 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
                     setSpeaker(isChecked);
-                    //widgetService.widgetOFF();
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).apply();
-                    //prefs.edit().putBoolean("", false).apply();
-                    //prefs.edit().apply();
-                    //isSpeakerOn = prefs.getBoolean("switchKey",false);
                     // Listens to phone state when switch is turn OFF
                     //phoneStateListener.onReceive(context,intent);
                     Log.d(TAG, "MainSwitch State: "+ getSpeaker());
@@ -134,42 +115,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         boolean betweenSwitch = prefs.getBoolean("switchKey",true);
         super.onPostResume();
-
         switch1.setChecked(betweenSwitch);
         Log.d(TAG, "onPostResume State: " + betweenSwitch);
     }
-
-    /**
-    public class WidgetUpdateService extends Service {
-        PrototypeWidget widget = new PrototypeWidget();
-        //SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        Context mainContext;
-
-        public WidgetUpdateService(){
-            mainContext = MainActivity.this.getApplicationContext();
-        }
-
-        public void widgetON(){
-            //widget.updateWidgets(mainContext);
-            Intent intent = new Intent(mainContext, PrototypeWidget.class);
-            intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-            mainContext.sendBroadcast(intent);
-            Log.d(TAG, "widgetON State: "+ isSpeakerphoneOn);
-
-        }
-        public void widgetOFF(){
-            //widget.updateWidgets(mainContext);
-            Intent intent = new Intent(mainContext, PrototypeWidget.class);
-            intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-            mainContext.sendBroadcast(intent);
-            Log.d(TAG, "widgetOFF State: "+ isSpeakerphoneOn);
-        }
-
-        @Nullable
-        @Override
-        public IBinder onBind(Intent intent) {
-            return null;
-        }
-    }
-        */
 }
