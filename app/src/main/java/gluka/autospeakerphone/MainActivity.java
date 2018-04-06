@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent favorite = new Intent(getApplicationContext(), FavoriteList.class);
+
                 startActivity(favorite);
             }
         });

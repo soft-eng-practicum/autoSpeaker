@@ -49,7 +49,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".FavoriteList"></activity>
+        <activity android:name=".FavoriteList">
+            android:label="this is titl">
+        </activity>
     </application>
 
 </manifest>
