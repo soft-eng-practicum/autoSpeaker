@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button favList = (Button)findViewById(R.id.favList);
+        final Button about = (Button) findViewById(R.id.aboutBtn);
+        final Button feedback = (Button) findViewById(R.id.feedbackBtn);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch1 = (Switch)findViewById(R.id.switch1);
         setChecked = prefs.getBoolean("switchKey",setChecked);
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // call the service with all the telephony stuff
         startService(new Intent(this,TelephonyService.class));
+
+
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +54,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(favorite);
             }
         });
+
+        about.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent aboutPage = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(aboutPage);
+            }
+        });
+
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent feedbackPage = new Intent(getApplicationContext(), FeedbackSystem.class);
+                startActivity(feedbackPage);
+            }
+        });
+
+
+
         // Initialize 'switchKey = True' only once
         switch1.setChecked(setChecked);
         //call speaker method with switch and preferences as params
@@ -118,4 +143,6 @@ public class MainActivity extends AppCompatActivity {
         switch1.setChecked(betweenSwitch);
         Log.d(TAG, "onPostResume State: " + betweenSwitch);
     }
+
+
 }
