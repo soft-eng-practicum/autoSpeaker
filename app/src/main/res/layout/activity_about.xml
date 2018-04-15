@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/userPic1"
+                android:id="@+id/scottPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -47,7 +47,7 @@
                 app:srcCompat="@drawable/userpic" />
 
             <TextView
-                android:id="@+id/description1"
+                android:id="@+id/scottDescription"
                 android:layout_width="320dp"
                 android:layout_height="150dp"
                 android:layout_marginEnd="8dp"
@@ -61,10 +61,10 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userPic1" />
+                app:layout_constraintTop_toBottomOf="@+id/scottPic" />
 
             <ImageView
-                android:id="@+id/userPic2"
+                android:id="@+id/sinnaPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -75,11 +75,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description1"
-                app:srcCompat="@drawable/userpic" />
+                app:layout_constraintTop_toBottomOf="@+id/scottDescription"
+                app:srcCompat="@drawable/sinna" />
 
             <TextView
-                android:id="@+id/description2"
+                android:id="@+id/sinnaDescription"
                 android:layout_width="320dp"
                 android:layout_height="150dp"
                 android:layout_marginEnd="8dp"
@@ -93,10 +93,10 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userPic2" />
+                app:layout_constraintTop_toBottomOf="@+id/sinnaPic" />
 
             <ImageView
-                android:id="@+id/userPic3"
+                android:id="@+id/lucaPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -106,11 +106,11 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description2"
-                app:srcCompat="@drawable/userpic" />
+                app:layout_constraintTop_toBottomOf="@+id/sinnaDescription"
+                app:srcCompat="@drawable/luca" />
 
             <TextView
-                android:id="@+id/description3"
+                android:id="@+id/lucaDescription"
                 android:layout_width="320dp"
                 android:layout_height="150dp"
                 android:layout_marginEnd="8dp"
@@ -124,10 +124,10 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userPic3" />
+                app:layout_constraintTop_toBottomOf="@+id/lucaPic" />
 
             <ImageView
-                android:id="@+id/userPic4"
+                android:id="@+id/henryPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -137,11 +137,11 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description3"
-                app:srcCompat="@drawable/userpic" />
+                app:layout_constraintTop_toBottomOf="@+id/lucaDescription"
+                app:srcCompat="@drawable/henry" />
 
             <TextView
-                android:id="@+id/description4"
+                android:id="@+id/henryDescription"
                 android:layout_width="320dp"
                 android:layout_height="150dp"
                 android:layout_marginEnd="8dp"
@@ -155,10 +155,10 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userPic4" />
+                app:layout_constraintTop_toBottomOf="@+id/henryPic" />
 
             <ImageView
-                android:id="@+id/userPic5"
+                android:id="@+id/brianPic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -168,11 +168,11 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description4"
-                app:srcCompat="@drawable/userpic" />
+                app:layout_constraintTop_toBottomOf="@+id/henryDescription"
+                app:srcCompat="@drawable/brian" />
 
             <TextView
-                android:id="@+id/description5"
+                android:id="@+id/brianDescription"
                 android:layout_width="320dp"
                 android:layout_height="150dp"
                 android:layout_marginEnd="8dp"
@@ -186,7 +186,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userPic5" />
+                app:layout_constraintTop_toBottomOf="@+id/brianPic" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

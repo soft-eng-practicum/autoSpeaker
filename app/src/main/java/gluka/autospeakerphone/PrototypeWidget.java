@@ -69,6 +69,8 @@ public class PrototypeWidget extends AppWidgetProvider
         intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
         intent.putExtra("appWidgetIds", AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, PrototypeWidget.class)));
         context.sendBroadcast(intent);
+
+        Log.d("Progress", "upDateWidget: " + isAppWidgetOn);
     }
 
     /**
@@ -121,6 +123,9 @@ public class PrototypeWidget extends AppWidgetProvider
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
             // Set speakerphone on
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+
+            Log.d("Progress", "appSwitch() state: " + isSwitchOn);
+
         }
         else if (isSpeakerphoneOn == false)
         {
@@ -130,6 +135,8 @@ public class PrototypeWidget extends AppWidgetProvider
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
             // Set speakerphone Off
             audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+
+            Log.d("Progress", "appSwitch() state: " + isSwitchOn);
         }
         ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
         AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);

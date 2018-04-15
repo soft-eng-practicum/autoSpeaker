@@ -1,8 +1,10 @@
 package gluka.autospeakerphone;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -73,11 +75,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         // Initialize 'switchKey = True' only once
         switch1.setChecked(setChecked);
         //call speaker method with switch and preferences as params
         speakerphoneSwitch(switch1,prefs);
+
+       // phoneStateListener.onReceive(context,intent);
+        Log.d("Progress", "MainActivity : onCreate() started");
     }
 
     /**
@@ -112,25 +116,56 @@ public class MainActivity extends AppCompatActivity {
                 PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
                 if(isChecked){
 
-                    Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone On
                     setSpeaker(isChecked);
+
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).apply();
+
+
+
+                    PackageManager packageManager = getPackageManager();
+                    ComponentName componentName = new ComponentName(getApplicationContext(),PhoneStateListener.class);
+
+                    packageManager.setComponentEnabledSetting(componentName,
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
+
                     // Listens to phone state when switch is turn ON
-                    //phoneStateListener.onReceive(context,intent);
+                    phoneStateListener.onReceive(context,intent);
+
+                    // Displays to app that widget is on
+                    Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
+
+                    // Debugging purposes
                     Log.d(TAG, "MainSwitch State: " + getSpeaker());
+                    Log.d("Progress", "MainSwitch : " + getSpeaker());
+
                 }
                 else if(isChecked==false){
 
-                    Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone Off
                     setSpeaker(isChecked);
+
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).apply();
+
                     // Listens to phone state when switch is turn OFF
-                    //phoneStateListener.onReceive(context,intent);
+                    //phoneStateListener.disableBroadCastReceiver(context,intent);
+
+                    PackageManager packageManager = getPackageManager();
+                    ComponentName componentName = new ComponentName(getApplicationContext(),PhoneStateListener.class);
+
+                    packageManager.setComponentEnabledSetting(componentName,
+                                                              PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                                              PackageManager.DONT_KILL_APP);
+
+                    // Displays to app that widget is on
+                    Toast.makeText(getApplicationContext(),"Off",Toast.LENGTH_SHORT).show();
+
+                    // Debugging purposes
                     Log.d(TAG, "MainSwitch State: "+ getSpeaker());
+                    Log.d("Progress", "MainSwitch : " + getSpeaker());
                 }
             }
         });
@@ -142,6 +177,8 @@ public class MainActivity extends AppCompatActivity {
         super.onPostResume();
         switch1.setChecked(betweenSwitch);
         Log.d(TAG, "onPostResume State: " + betweenSwitch);
+        Log.d("Progress", "onPostResume : " + getSpeaker());
+
     }
 
 

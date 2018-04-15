@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "712260850335",
+    "firebase_url": "https://autospeaker-65ab9.firebaseio.com",
+    "project_id": "autospeaker-65ab9",
+    "storage_bucket": "autospeaker-65ab9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712260850335:android:b56b4ceeb5b0e664",
+        "android_client_info": {
+          "package_name": "gluka.autospeakerphone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712260850335-efqnmoksg3oogok43em8bn8g0c4d1tpg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gluka.autospeakerphone",
+            "certificate_hash": "94705fd85bf8bd1213ebaaf5deb2d70a45ec08fe"
+          }
+        },
+        {
+          "client_id": "712260850335-bl483sbt9pf7jejm0hcitc0pkp6hr7bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz3yS8flpgbolWGOVs5eAPK3689QwgOgU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712260850335-bl483sbt9pf7jejm0hcitc0pkp6hr7bu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
