@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -24,9 +25,9 @@ public class PrototypeWidget extends AppWidgetProvider
     private static boolean isAppWidgetOn = true;
     private static boolean isSwitchOn;
     private static boolean adjustSwitch = false;
-    private static boolean intiSpeakerOn = true;
     private RemoteViews remoteViews;
     private static boolean setChecked = true;
+    private PhoneStateListener phoneStateListener;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -108,6 +109,7 @@ public class PrototypeWidget extends AppWidgetProvider
      */
     protected void appSwitch(Context context, Intent intent)
     {
+        phoneStateListener = new PhoneStateListener();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -120,7 +122,8 @@ public class PrototypeWidget extends AppWidgetProvider
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
             // Set speakerphone on
-            audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+            phoneStateListener.onReceive(context,intent);
+            Log.d(TAG,"appSwitch State: setChecked = " + true);
         }
         else if (isSpeakerphoneOn == false)
         {
@@ -129,7 +132,8 @@ public class PrototypeWidget extends AppWidgetProvider
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
             // Set speakerphone Off
-            audioManager.setSpeakerphoneOn(isSpeakerphoneOn);
+            phoneStateListener.onReceive(context,intent);
+            Log.d(TAG,"appSwitch State: setChecked = " + false);
         }
         ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
         AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
@@ -139,6 +143,11 @@ public class PrototypeWidget extends AppWidgetProvider
         editor.putBoolean("", isSpeakerphoneOn);
         editor.putBoolean("switchKey", isSwitchOn);
         editor.apply();
+    }
+
+    protected static boolean getSpeaker()
+    {
+        return isSwitchOn;
     }
 }
 
