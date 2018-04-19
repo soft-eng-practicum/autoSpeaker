@@ -43,6 +43,7 @@ public class PhoneStateListener extends BroadcastReceiver {
             }
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
                 Log.i("Progress", "Call ended");
+                Log.e("Progress", "Service idle");
                 audioManager.setMode(AudioManager.MODE_NORMAL);
                 audioManager.setSpeakerphoneOn(false);
 
