@@ -1,5 +1,8 @@
 # Project: autoSpeaker
 
+![autospeakerpics](https://user-images.githubusercontent.com/31226756/39018197-5de075da-43f3-11e8-9e3f-85244a2073f3.png)
+
+
 ## Team Members and Roles
 <ol>
     <li><b>Henry Huynh : <i>Client Liaison & UI/UX Design</i>:iphone::computer:</b></li>
