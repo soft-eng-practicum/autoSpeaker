@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/aboutTitleTextView"
-                android:layout_width="300dp"
+                android:layout_width="312dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="28dp"
                 android:text="About The Developers"
@@ -37,14 +37,14 @@
 
             <ImageView
                 android:id="@+id/scottPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutTitleTextView"
-                app:srcCompat="@drawable/userpic" />
+                app:srcCompat="@drawable/scott" />
 
             <TextView
                 android:id="@+id/scottDescription"
@@ -55,18 +55,18 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="When I first brought my cat home from the Humane Society she was a mangy, pitiful animal. She was so thin that you could count her vertebrae just by looking at her. Apparently she was declawed by her previous owners, then abandoned or lost. Since she couldn't hunt, she nearly starved. Not only that, but she had an abscess on one hip. "
+                android:text="Scott Warfield is a quadriplegic as a result of a diving accident. He is also a senior software developer for IBM with specialties in involving security and accessibility.  After spending eight years in the military, he was hired by Internet security systems to be a developer on the X-Force RD team responsible for developing algorithms to detect malicious traffic. Scott currently spends a great deal of time working with people with disabilities in order to determine if there are software or hardware related solutions to assist them."
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scottPic" />
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <ImageView
                 android:id="@+id/sinnaPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -81,24 +81,24 @@
             <TextView
                 android:id="@+id/sinnaDescription"
                 android:layout_width="320dp"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="When I first brought my cat home from the Humane Society she was a mangy, pitiful animal. She was so thin that you could count her vertebrae just by looking at her. Apparently she was declawed by her previous owners, then abandoned or lost. Since she couldn't hunt, she nearly starved. Not only that, but she had an abscess on one hip. "
+                android:text="Sinna Uy is a senior software developer undergrad at Georgia Gwinnett College (GGC). During his sophomore year at GGC, he was hired by University System of Georgia (USG): ITS to be a IT student assistance to help the Technology Store software analyst manager with script customizations through analysis, create, export, and import saved searches using Netsuite, and verifications that assist with system clean up. Sinna presently spends many hours practicing his fundamental skills in software development and learning new languages at GGC and USG: ITS."
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sinnaPic" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <ImageView
                 android:id="@+id/lucaPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -124,12 +124,12 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lucaPic" />
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <ImageView
                 android:id="@+id/henryPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="250dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -143,24 +143,24 @@
             <TextView
                 android:id="@+id/henryDescription"
                 android:layout_width="320dp"
-                android:layout_height="150dp"
+                android:layout_height="259dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="When I first brought my cat home from the Humane Society she was a mangy, pitiful animal. She was so thin that you could count her vertebrae just by looking at her. Apparently she was declawed by her previous owners, then abandoned or lost. Since she couldn't hunt, she nearly starved. Not only that, but she had an abscess on one hip. "
+                android:text="Henry Huynh is a Senior at Georgia Gwinnett College majoring in Software Development. Henry has developed his interest in Software Development during his Sophomore year in college. His areas of interest are Android/IOS development, Automation Testing with Selenium, Object-Oriented Programming, and Version Control Systems such as GitHub, and Software Engineering principles. He is also an active member in the United States Army National Guard. Henry enjoys developing software on his free time. The software Henry develops are aimed to solve problems with his personal life and others. When Henry is not developing Software, he enjoys engaging in outdoor activities such as fishing, camping, teaching students in Object-Oriented Programming. One of Henry’s favorite quotes was from his Software Testing and Quality Assurance professor, Dr. Tacksoo Im ; “How do you know if you are lost or exploring?”"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/henryPic" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <ImageView
                 android:id="@+id/brianPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -184,6 +184,81 @@
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="Project Adviser &amp; Mentor"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scottPic" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Lead Programmer &amp; Tester"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sinnaPic" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="UX / UI &amp; Code Architecture"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lucaPic" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Database Modeler &amp; Code Architecture"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/henryPic" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Documentation Lead"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brianPic" />
