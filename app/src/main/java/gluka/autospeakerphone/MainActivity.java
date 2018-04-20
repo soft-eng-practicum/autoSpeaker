@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(isChecked)
                 {
-                    Toast.makeText(getApplicationContext(),"On",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"ON",Toast.LENGTH_SHORT).show();
                     //Set Speakerphone On
                     setSpeaker(isChecked);
                     //save state onto the phone hdd, not ram
