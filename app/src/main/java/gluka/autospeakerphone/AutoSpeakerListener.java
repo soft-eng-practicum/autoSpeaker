@@ -11,7 +11,7 @@ import android.util.Log;
  * Created by Developer on 2/13/18.
  */
 
-public class PhoneStateListener extends BroadcastReceiver {
+public class AutoSpeakerListener extends BroadcastReceiver {
 
     AudioManager audioManager =null; //(AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 
@@ -53,11 +53,5 @@ public class PhoneStateListener extends BroadcastReceiver {
         catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void disableBroadCastReceiver(Context context, Intent intent) {
-
-
-        Log.d("Progress", "disableBroadCastReceiver()");
     }
 }
