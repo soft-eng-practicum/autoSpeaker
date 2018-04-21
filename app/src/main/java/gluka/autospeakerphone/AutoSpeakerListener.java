@@ -21,6 +21,7 @@ public class AutoSpeakerListener extends BroadcastReceiver {
             Log.i("Progress","Receiver initialized");
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+
             // Listens to incoming call
             if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
             {

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected static boolean setChecked = true;
     private Context context;
     private Intent intent;
-    private PhoneStateListener phoneStateListener;
+    private AutoSpeakerListener autoSpeakerListener;
     protected static Switch switch1;
     protected static SharedPreferences prefs = null;
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final Button feedback = (Button) findViewById(R.id.feedbackBtn);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch1 = (Switch)findViewById(R.id.switch1);
-        phoneStateListener = new PhoneStateListener();
+        autoSpeakerListener = new AutoSpeakerListener();
         setChecked = prefs.getBoolean("switchKey",setChecked);
         Log.d(TAG, "onCreate State: " + setChecked);
         //Required to set Speakerphone On/Off
@@ -123,15 +123,18 @@ public class MainActivity extends AppCompatActivity {
                     setSpeaker(isChecked);
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).apply();
+
+
                     // Listens to phone state when switch is turn ON
                     PackageManager packageManager = getPackageManager();
-                    ComponentName componentName = new ComponentName(getApplicationContext(),PhoneStateListener.class);
+                    ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
 
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
-                    phoneStateListener.onReceive(context,intent);
+                    autoSpeakerListener.onReceive(context,intent);
                     Log.d(TAG, "MainSwitch State: " + getSpeaker());
+
 
                 }
                 else if(isChecked==false)
@@ -141,15 +144,18 @@ public class MainActivity extends AppCompatActivity {
                     setSpeaker(isChecked);
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).apply();
+
+
                     // Listens to phone state when switch is turn OFF
                     PackageManager packageManager = getPackageManager();
-                    ComponentName componentName = new ComponentName(getApplicationContext(),PhoneStateListener.class);
+                    ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
 
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
-                    phoneStateListener.onReceive(context,intent);
+                    autoSpeakerListener.onReceive(context,intent);
                     Log.d(TAG, "MainSwitch State: "+ getSpeaker());
+
                 }
             }
         });

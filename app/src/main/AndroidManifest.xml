@@ -46,7 +46,7 @@
         </receiver>
 
 
-        <receiver android:name=".PhoneStateListener">
+        <receiver android:name=".AutoSpeakerListener">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

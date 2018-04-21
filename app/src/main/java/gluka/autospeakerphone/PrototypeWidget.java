@@ -27,7 +27,7 @@ public class PrototypeWidget extends AppWidgetProvider
     private static boolean adjustSwitch = false;
     private RemoteViews remoteViews;
     private static boolean setChecked = true;
-    private PhoneStateListener phoneStateListener;
+    private AutoSpeakerListener autoSpeakerListener;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -109,7 +109,7 @@ public class PrototypeWidget extends AppWidgetProvider
      */
     protected void appSwitch(Context context, Intent intent)
     {
-        phoneStateListener = new PhoneStateListener();
+        autoSpeakerListener = new AutoSpeakerListener();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -122,7 +122,7 @@ public class PrototypeWidget extends AppWidgetProvider
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
             // Set speakerphone on
-            phoneStateListener.onReceive(context,intent);
+            autoSpeakerListener.onReceive(context,intent);
             Log.d(TAG,"appSwitch State: setChecked = " + true);
         }
         else if (isSpeakerphoneOn == false)
@@ -132,7 +132,7 @@ public class PrototypeWidget extends AppWidgetProvider
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
             // Set speakerphone Off
-            phoneStateListener.onReceive(context,intent);
+            autoSpeakerListener.onReceive(context,intent);
             Log.d(TAG,"appSwitch State: setChecked = " + false);
         }
         ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
