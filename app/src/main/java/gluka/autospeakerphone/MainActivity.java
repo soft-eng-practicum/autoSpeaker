@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(aboutPage);
             }
         });
-        /**
+
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(feedbackPage);
             }
         });
-         */
+
         // Initialize 'switchKey = True' only once
         switch1.setChecked(setChecked);
         //call speaker method with switch and preferences as params
