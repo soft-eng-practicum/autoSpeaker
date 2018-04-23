@@ -24,12 +24,13 @@
 
             <TextView
                 android:id="@+id/aboutTitleTextView"
-                android:layout_width="312dp"
-                android:layout_height="45dp"
+                android:layout_width="350dp"
+                android:layout_height="54dp"
                 android:layout_marginTop="28dp"
                 android:text="About The Developers"
+                android:textAlignment="center"
                 android:textColor="#55be12"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,11 +141,9 @@
 
             <TextView
                 android:id="@+id/henryDescription"
-                android:layout_width="320dp"
+                android:layout_width="330dp"
                 android:layout_height="259dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Henry Huynh is a Senior at Georgia Gwinnett College majoring in Software Development. Henry has developed his interest in Software Development during his Sophomore year in college. His areas of interest are Android/IOS development, Automation Testing with Selenium, Object-Oriented Programming, and Version Control Systems such as GitHub, and Software Engineering principles. He is also an active member in the United States Army National Guard. Henry enjoys developing software on his free time. The software Henry develops are aimed to solve problems with his personal life and others. When Henry is not developing Software, he enjoys engaging in outdoor activities such as fishing, camping, teaching students in Object-Oriented Programming. One of Henry’s favorite quotes was from his Software Testing and Quality Assurance professor, Dr. Tacksoo Im ; “How do you know if you are lost or exploring?”"

@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     String className = MainActivity.class.getSimpleName();
 
-    PrototypeWidget widget = new PrototypeWidget();
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         final Button feedback = (Button) findViewById(R.id.feedbackBtn);
 
 
+        // Favorite List Activity Button
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // About The Developers Button
         about.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Feed Back Button, connected to Google Firebase Database
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +69,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Main Switch onclickListener
         mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            // When switch is change on/off
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
+                    Log.i("Progress", "Broadcast Receiver : Activated");
 
 
                     // Saving main switch state when user is turning it on
@@ -106,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
+                    Log.i("Progress", "Broadcast Receiver : Deactivated");
+
 
                     // Saving main switch state when user is turning it on
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -120,11 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i("Progress", "Saved switched value to SharedPreference : Switch Value : " + checkedCondition);
 
+
                 }
             }
         });
 
-        Log.d("progress", "onCreate(), switch = " + checkedCondition);
+        Log.d("Progress", "onCreate(), switch = " + checkedCondition);
     }
 
     // Called when app is visible to the user

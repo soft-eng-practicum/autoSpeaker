@@ -22,6 +22,8 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
+    MainActivity mainActivity = new MainActivity();
+
     @Rule
     public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -30,25 +32,17 @@ public class MainActivityTest {
 
     }
 
-    @Test
-    public void getSpeaker() throws Exception {
-        boolean output;
-        boolean expected = true;
-        MainActivity.setSpeaker(expected);
-        output = MainActivity.getSpeaker();
-        Assert.assertEquals(expected, output);
-    }
 
     @Test
     public void speakerphoneSwitch() throws Exception {
         boolean expected = true;
-        Assert.assertEquals(expected, MainActivity.getSpeaker());
+        Assert.assertEquals(expected, mainActivity.getSwitchValue());
         //Click on change button
-        onView(withId(R.id.switch1)).perform(click());
+        onView(withId(R.id.mainSwitch)).perform(click());
         expected = false;
-        Assert.assertEquals(expected, MainActivity.getSpeaker());
+        Assert.assertEquals(expected, mainActivity.getSwitchValue());
         //Click on change button
-        onView(withId(R.id.switch1)).perform(click());
+        onView(withId(R.id.mainSwitch)).perform(click());
 
     }
 }

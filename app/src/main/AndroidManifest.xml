@@ -35,6 +35,9 @@
             </intent-filter>
         </activity>
 
+
+
+
         <receiver android:name=".PrototypeWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -46,7 +49,11 @@
         </receiver>
 
 
-        <receiver android:name=".AutoSpeakerListener">
+
+
+
+        <receiver android:name=".AutoSpeakerListener" android:enabled="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
