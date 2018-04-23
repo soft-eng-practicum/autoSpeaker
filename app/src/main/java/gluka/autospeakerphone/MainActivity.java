@@ -18,14 +18,14 @@ import android.widget.Toast;
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
-    private static AudioManager audioManager;
-    protected static boolean isSpeakerphoneOn;
-    protected static boolean setChecked = true;
-    private Context context;
-    private Intent intent;
-    private AutoSpeakerListener autoSpeakerListener;
-    protected static Switch switch1;
-    protected static SharedPreferences prefs = null;
+    protected static Switch mainSwitch;
+    protected static SharedPreferences sharedPreferences;
+    boolean checkedCondition;
+
+    String className = MainActivity.class.getSimpleName();
+
+    PrototypeWidget widget = new PrototypeWidget();
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -33,18 +33,15 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainSwitch = (Switch)findViewById(R.id.mainSwitch);
+        sharedPreferences = getSharedPreferences(getPackageName() + "." + className, MODE_PRIVATE);
+
         final Button about = (Button) findViewById(R.id.aboutBtn);
         final Button favList = (Button)findViewById(R.id.favList);
         final Button feedback = (Button) findViewById(R.id.feedbackBtn);
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        switch1 = (Switch)findViewById(R.id.switch1);
-        autoSpeakerListener = new AutoSpeakerListener();
-        setChecked = prefs.getBoolean("switchKey",setChecked);
-        Log.d(TAG, "onCreate State: " + setChecked);
-        //Required to set Speakerphone On/Off
-        audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-        // call the service with all the telephony stuff
-        startService(new Intent(this,TelephonyService.class));
+
+
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(aboutPage);
             }
         });
-        /**
+
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,104 +66,130 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(feedbackPage);
             }
         });
-         */
-        // Initialize 'switchKey = True' only once
-        switch1.setChecked(setChecked);
-        //call speaker method with switch and preferences as params
-        speakerphoneSwitch(switch1,prefs);
-    }
 
-    /**
-     * Set speakerphone status
-     * @param isChecked
-     */
-    protected static void setSpeaker(boolean isChecked)
-    {
-        audioManager.setSpeakerphoneOn(isChecked);
-        isSpeakerphoneOn = isChecked;
-    }
+        mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-    /**
-     * Get speakerphone status
-     * @return
-     */
-    protected static boolean getSpeaker()
-    {
-        return isSpeakerphoneOn;
-    }
-
-    /**
-     * Speakerphone switch method
-     * @param switch1
-     * @param prefs
-     */
-    protected void speakerphoneSwitch(final Switch switch1, final SharedPreferences prefs)
-    {
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(switch1.isPressed())
-                {
-                    PrototypeWidget.updateWidgets(MainActivity.this, isChecked);
-                    Log.d("TAG", "MainSwitch State: isPressed() = " + switch1.isPressed());
-                }
-                else {
-                    Log.d("TAG", "MainSwitch State: isPressed() = " + switch1.isPressed());
-                }
-                if(isChecked)
-                {
-                    Toast.makeText(getApplicationContext(),"ON",Toast.LENGTH_SHORT).show();
-                    //Set Speakerphone On
-                    setSpeaker(isChecked);
-                    //save state onto the phone hdd, not ram
-                    prefs.edit().putBoolean("switchKey", true).apply();
+                checkedCondition = isChecked;
 
-
-                    // Listens to phone state when switch is turn ON
+                if(checkedCondition == true) {
+                    // PackageManager and ComponentName will activate BroadcastReceiver when switch is onn
                     PackageManager packageManager = getPackageManager();
                     ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
-
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
-                    autoSpeakerListener.onReceive(context,intent);
-                    Log.d(TAG, "MainSwitch State: " + getSpeaker());
 
 
+                    // Saving main switch state when user is turning it on
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("switchValue", checkedCondition);
+                    editor.commit();
+
+                    // Updates PrototypeWidget to the on position
+                    //PrototypeWidget.updateWidgets(MainActivity.this, checkedCondition);
+
+
+                    // Displays to users that AutoSpeaker is ON
+                    Toast.makeText(getApplicationContext(),"ON",Toast.LENGTH_SHORT).show();
+
+                    Log.i("Progress", "Saved switched value to SharedPreference : Switch Value : " + checkedCondition);
                 }
-                else if(isChecked==false)
-                {
-                    Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
-                    //Set Speakerphone Off
-                    setSpeaker(isChecked);
-                    //save state onto the phone hdd, not ram
-                    prefs.edit().putBoolean("switchKey", false).apply();
 
+                else if(checkedCondition == false) {
 
-                    // Listens to phone state when switch is turn OFF
+                    // PackageManager and ComponentName will deactivate BroadcastReceiver when switch is off
                     PackageManager packageManager = getPackageManager();
                     ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
-
                     packageManager.setComponentEnabledSetting(componentName,
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
-                    autoSpeakerListener.onReceive(context,intent);
-                    Log.d(TAG, "MainSwitch State: "+ getSpeaker());
+
+                    // Saving main switch state when user is turning it on
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("switchValue", checkedCondition);
+                    editor.commit();
+
+                    // Updates PrototypeWidget to the off position
+                    //PrototypeWidget.updateWidgets(MainActivity.this, checkedCondition);
+
+                    // Displays to user that AutoSpeaker is OFF
+                    Toast.makeText(getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
+
+                    Log.i("Progress", "Saved switched value to SharedPreference : Switch Value : " + checkedCondition);
 
                 }
             }
         });
+
+        Log.d("progress", "onCreate(), switch = " + checkedCondition);
     }
 
+    // Called when app is visible to the user
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
-        boolean betweenSwitch = prefs.getBoolean("switchKey",true);
-        switch1.setChecked(betweenSwitch);
-        Log.d(TAG, "onResume State: " + betweenSwitch);
+
+        // Retrieving main switch value when app is loaded
+        mainSwitch.setChecked(sharedPreferences.getBoolean("switchValue", checkedCondition));
+
+        Log.i("Progress", "onStart(), switch = " + checkedCondition);
     }
+
+    // App will be restarted when phone crashes?? lol
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Log.i("Progress", "onRestart(), switch = " + checkedCondition);
+    }
+
+    // Called when app is opened again but not killed by task manager
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mainSwitch.setChecked(sharedPreferences.getBoolean("switchValue", checkedCondition));
+        //PrototypeWidget.updateWidgets(MainActivity.this, sharedPreferences.getBoolean("switchValue",checkedCondition));
+        Log.i("Progress", "onResume(), switch = " + checkedCondition);
+    }
+
+    // Called when "home" button is pressed or killed by task manager
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Saving main switch value when app is stopped by pressing "home" button
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("switchValue", checkedCondition);
+        editor.commit();
+
+        Log.i("Progress", "onStop(), switch = " + checkedCondition);
+    }
+
+    // Called when "back" button is pressed
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Saving main switch value when app is destroyed by pressing "back" button
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("switchValue", checkedCondition);
+        editor.commit();
+
+        Log.i("Progress", "onDestroy(), switch = " + checkedCondition);
+    }
+
+
+
+    // Returns the value of the switch at it's last known state
+    public boolean getSwitchValue() {
+
+        Log.i("Progress", "getSwitchValue(), switch = " + checkedCondition);
+
+        return sharedPreferences.getBoolean("switchValue", checkedCondition);
+    }
+
 }

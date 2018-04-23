@@ -18,37 +18,35 @@ public class AutoSpeakerListener extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            Log.i("Progress","Receiver initialized");
+            Log.i("Progress","AutoSpeakerListener Class : Receiver Initialized");
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
             audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 
             // Listens to incoming call
-            if(state.equals(TelephonyManager.EXTRA_STATE_RINGING))
-            {
-                Log.i("Progress", "Incoming call");
+            if(state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                Log.i("Progress", "Incoming call, state = " + state);
+                Log.i("Progress", "Incoming call, TelephoneManager = " + TelephonyManager.EXTRA_STATE_RINGING);
             }
+
             // Answered call
-            if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && (MainActivity.getSpeaker() || PrototypeWidget.getSpeaker())){
-                Log.d("TAG", "Phone State: getSpeaker() = " + MainActivity.getSpeaker());
+            if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))){
 
                 audioManager.setMode(AudioManager.MODE_IN_CALL);
                 audioManager.setSpeakerphoneOn(true);
-                Log.i("Progress", "Call Answered");
+
+                Log.i("Progress", "Call Answered, state = " + state);
+                Log.i("Progress", "Incoming call, TelephoneManager = " + TelephonyManager.EXTRA_STATE_OFFHOOK);
             }
-            else if((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && ((MainActivity.getSpeaker() == false) || (PrototypeWidget.getSpeaker() == false)))
-            {
-                Log.d("TAG", "Phone State: getSpeaker() = " + MainActivity.getSpeaker());
-                audioManager.setMode(AudioManager.MODE_IN_CALL);
-                audioManager.setSpeakerphoneOn(false);
-                Log.i("Progress", "Call Answered");
-            }
+
+            // Call ended
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
-                Log.i("Progress", "Call ended");
-                Log.e("Progress", "Service idle");
+
                 audioManager.setMode(AudioManager.MODE_NORMAL);
                 audioManager.setSpeakerphoneOn(false);
 
-                Log.i("Progress", "Call ended");
+                Log.i("Progress", "Call ended state = " + state);
+                Log.i("Progress", "Incoming call, TelephoneManager = " + TelephonyManager.EXTRA_STATE_IDLE);
+
             }
         }
         catch (Exception e){

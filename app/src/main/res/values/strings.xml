@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AutoSpeakerPhone</string>
+    <string name="app_name">AutoSpeakerPhon V2</string>
     <string name="appwidget_text">SPEAKER</string>
     <string name="add_widget">Add widget</string>
 </resources>

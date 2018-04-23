@@ -60,7 +60,7 @@
         app:layout_constraintVertical_bias="0.055" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/mainSwitch"
         android:layout_width="108dp"
         android:layout_height="48dp"
         android:layout_marginBottom="8dp"
