@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", true).apply();
 
-
+                    /**
                     // Listens to phone state when switch is turn ON
                     PackageManager packageManager = getPackageManager();
                     ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
                     autoSpeakerListener.onReceive(context,intent);
+                     */
                     Log.d(TAG, "MainSwitch State: " + getSpeaker());
 
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     //save state onto the phone hdd, not ram
                     prefs.edit().putBoolean("switchKey", false).apply();
 
-
+                    /**
                     // Listens to phone state when switch is turn OFF
                     PackageManager packageManager = getPackageManager();
                     ComponentName componentName = new ComponentName(getApplicationContext(),AutoSpeakerListener.class);
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
                     autoSpeakerListener.onReceive(context,intent);
+                     */
                     Log.d(TAG, "MainSwitch State: "+ getSpeaker());
 
                 }

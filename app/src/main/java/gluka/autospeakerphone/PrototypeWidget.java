@@ -7,10 +7,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import static android.content.ContentValues.TAG;
 
@@ -19,7 +20,6 @@ import static android.content.ContentValues.TAG;
  */
 public class PrototypeWidget extends AppWidgetProvider
 {
-    private AudioManager audioManager;
     private static SharedPreferences prefs;
     private static boolean isSpeakerphoneOn = true;
     private static boolean isAppWidgetOn = true;
@@ -27,7 +27,10 @@ public class PrototypeWidget extends AppWidgetProvider
     private static boolean adjustSwitch = false;
     private RemoteViews remoteViews;
     private static boolean setChecked = true;
-    private AutoSpeakerListener autoSpeakerListener;
+    protected ComponentName componentName;
+    protected static ImageButton imageButton;
+    protected static int widgetNum;
+    protected AutoSpeakerListener autoSpeakerListener;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -43,9 +46,11 @@ public class PrototypeWidget extends AppWidgetProvider
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int widgetId : appWidgetIds)
         {
+            widgetNum = widgetId;
             // Create an Intent to launch Activity
             Intent intent = new Intent(context, PrototypeWidget.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
             // Get the layout for the App Widget and attach an on-click listener
             // to the button
@@ -112,7 +117,6 @@ public class PrototypeWidget extends AppWidgetProvider
         autoSpeakerListener = new AutoSpeakerListener();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         isSpeakerphoneOn = generateSwitch(context);
         mainSwitchControl();
         if (isSpeakerphoneOn)
@@ -121,8 +125,8 @@ public class PrototypeWidget extends AppWidgetProvider
             Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
-            // Set speakerphone on
             autoSpeakerListener.onReceive(context,intent);
+            Toast.makeText(context.getApplicationContext(),"ON",Toast.LENGTH_SHORT).show();
             Log.d(TAG,"appSwitch State: setChecked = " + true);
         }
         else if (isSpeakerphoneOn == false)
@@ -131,11 +135,12 @@ public class PrototypeWidget extends AppWidgetProvider
             Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
-            // Set speakerphone Off
             autoSpeakerListener.onReceive(context,intent);
+            Toast.makeText(context.getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
             Log.d(TAG,"appSwitch State: setChecked = " + false);
         }
-        ComponentName componentName = new ComponentName(context, PrototypeWidget.class);
+
+        componentName = new ComponentName(context, PrototypeWidget.class);
         AppWidgetManager.getInstance(context).updateAppWidget(componentName, remoteViews);
         isSpeakerphoneOn = !isSpeakerphoneOn;
         // Commit changes to SharedPreference
@@ -150,4 +155,3 @@ public class PrototypeWidget extends AppWidgetProvider
         return isSwitchOn;
     }
 }
-

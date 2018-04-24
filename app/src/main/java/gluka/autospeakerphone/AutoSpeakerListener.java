@@ -7,6 +7,8 @@ import android.media.AudioManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import static gluka.autospeakerphone.PrototypeWidget.getSpeaker;
+
 /**
  * Created by Developer on 2/13/18.
  */
@@ -27,21 +29,38 @@ public class AutoSpeakerListener extends BroadcastReceiver {
             {
                 Log.i("Progress", "Incoming call");
             }
-            // Answered call
-            if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && (MainActivity.getSpeaker() || PrototypeWidget.getSpeaker())){
-                Log.d("TAG", "Phone State: getSpeaker() = " + MainActivity.getSpeaker());
 
+            // Answered call - AppWidget
+            if((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && (getSpeaker()))
+            {
                 audioManager.setMode(AudioManager.MODE_IN_CALL);
                 audioManager.setSpeakerphoneOn(true);
                 Log.i("Progress", "Call Answered");
+                Log.d("TAG", "Phone State: getSpeaker() = " + getSpeaker());
             }
-            else if((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && ((MainActivity.getSpeaker() == false) || (PrototypeWidget.getSpeaker() == false)))
+            else if((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && (getSpeaker() == false))
             {
-                Log.d("TAG", "Phone State: getSpeaker() = " + MainActivity.getSpeaker());
                 audioManager.setMode(AudioManager.MODE_IN_CALL);
                 audioManager.setSpeakerphoneOn(false);
                 Log.i("Progress", "Call Answered");
+                Log.d("TAG", "Phone State: getSpeaker() = " + getSpeaker());
             }
+            // Answered call - MainActivity Switch
+            else if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && MainActivity.getSpeaker())
+            {
+                audioManager.setMode(AudioManager.MODE_IN_CALL);
+                audioManager.setSpeakerphoneOn(true);
+                Log.i("Progress", "Call Answered");
+                Log.d("TAG", "Phone State: MainActivity.getSpeaker() = " + MainActivity.getSpeaker());
+            }
+            else if((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) && MainActivity.getSpeaker() == false)
+            {
+                audioManager.setMode(AudioManager.MODE_IN_CALL);
+                audioManager.setSpeakerphoneOn(false);
+                Log.i("Progress", "Call Answered");
+                Log.d("TAG", "Phone State: MainActivity.getSpeaker() = " + MainActivity.getSpeaker());
+            }
+
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
                 Log.i("Progress", "Call ended");
                 Log.e("Progress", "Service idle");
