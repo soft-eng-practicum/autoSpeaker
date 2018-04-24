@@ -1,7 +1,8 @@
 package gluka.autospeakerphone;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +18,20 @@ public class FeedbackSystem extends AppCompatActivity implements View.OnClickLis
     EditText feedback;
     EditText userName;
     Button submit;
+    private static final String PREFS_NAME = "prefs";
+    private static final String PREF_DARK_THEME = "dark_theme";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //changes the theme before it gets displayed
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
+        if(useDarkTheme) {
+            setTheme(R.style.AppCompatBlind);
+
+        }
         setContentView(R.layout.activity_feedback_system);
 
         //Initialize Firebase instances

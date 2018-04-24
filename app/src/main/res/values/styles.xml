@@ -1,12 +1,32 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeMain" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/Dark_green</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/Dark_grey</item>
+        <item name="android:textColorSecondary">@android:color/holo_red_dark</item>
+
+    </style>
+
+    <style name="AppCompatBlind" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorPrimary">@android:color/holo_red_dark</item>
+        <item name="colorAccent">@android:color/holo_orange_light</item>
+        <item name="android:colorBackground">?android:attr/textColorSecondary</item>
+        <item name="android:windowBackground">@android:color/background_dark</item>
+        <item name="android:textColorSecondary">@android:color/holo_orange_dark</item>
+        <item name="android:textColorPrimaryInverse">@android:color/background_light</item>
+        <item name="colorPrimaryDark">@android:color/background_light</item>
+        <item name="android:textColorPrimary">@android:color/background_light</item>
+        <item name="android:textColorSecondaryInverse">@android:color/background_dark</item>
+        <item name="android:textAppearanceButton">@android:color/holo_orange_dark</item>
+        <item name="colorButtonNormal">@android:color/holo_orange_dark</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="android:textViewStyle">@android:color/holo_red_dark</item>
+
+
     </style>
 
 </resources>

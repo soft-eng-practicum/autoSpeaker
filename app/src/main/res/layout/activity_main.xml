@@ -15,7 +15,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/Dark_green"
+        android:background="?android:attr/colorButtonNormal"
         android:text="Feedback"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/Dark_green"
+        android:background="?android:attr/colorButtonNormal"
         android:text="About"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.812" />
+
 
     <Switch
         android:id="@+id/swBlind"
@@ -79,15 +80,15 @@
 
     <Button
         android:id="@+id/favList"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/Dark_green"
+        android:background="?android:attr/colorButtonNormal"
         android:text="Favorite List"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +106,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Speaker Phone"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/colorPrimaryDark"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +124,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Color Blind"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/colorPrimaryDark"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

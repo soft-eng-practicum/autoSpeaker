@@ -28,7 +28,7 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="28dp"
                 android:text="About The Developers"
-                android:textColor="#55be12"
+                android:textColor="?attr/colorPrimaryDark"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

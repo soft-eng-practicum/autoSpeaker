@@ -1,10 +1,8 @@
 package gluka.autospeakerphone;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,6 +13,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,19 +24,34 @@ public class MainActivity extends AppCompatActivity {
     private Intent intent;
     private AutoSpeakerListener autoSpeakerListener;
     protected static Switch switch1;
+    private static final String PREFS_NAME = "prefs";
+    private static final String PREF_DARK_THEME = "dark_theme";
+    Switch blindswitch;
     protected static SharedPreferences prefs = null;
-
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
-        setTheme(R.style.AppTheme);
+
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
+        if(useDarkTheme) {
+            setTheme(R.style.AppCompatBlind);
+
+        }
         super.onCreate(savedInstanceState);
+       //
+       // int theme = loadTheme();
+       // this.setTheme(theme);
+        //getWindow().getContext().setTheme(loadTheme());
         setContentView(R.layout.activity_main);
         final Button about = (Button) findViewById(R.id.aboutBtn);
         final Button favList = (Button)findViewById(R.id.favList);
         final Button feedback = (Button) findViewById(R.id.feedbackBtn);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         switch1 = (Switch)findViewById(R.id.switch1);
+        Switch blindswitch = (Switch)findViewById(R.id.swBlind);
+
         autoSpeakerListener = new AutoSpeakerListener();
         setChecked = prefs.getBoolean("switchKey",setChecked);
         Log.d(TAG, "onCreate State: " + setChecked);
@@ -45,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         // call the service with all the telephony stuff
         startService(new Intent(this,TelephonyService.class));
+
         favList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +89,22 @@ public class MainActivity extends AppCompatActivity {
         switch1.setChecked(setChecked);
         //call speaker method with switch and preferences as params
         speakerphoneSwitch(switch1,prefs);
+
+        blindswitch.setChecked(useDarkTheme);
+        blindswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked) {
+                    toggleTheme(isChecked);
+                }
+                else if(isChecked==false) {
+                    toggleTheme(isChecked);
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -164,11 +195,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
         boolean betweenSwitch = prefs.getBoolean("switchKey",true);
         switch1.setChecked(betweenSwitch);
         Log.d(TAG, "onResume State: " + betweenSwitch);
     }
+
+    public int loadTheme(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //Load theme color
+        int theme = sharedPreferences.getInt("Theme", android.R.style.Theme_Holo_Light); //RED is default color, when nothing is saved yet
+
+        return theme;
+    }
+    public void saveTheme(int theme) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("Theme",theme);
+        //editor.apply();
+    }
+    private void toggleTheme(boolean darkTheme) {
+        SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putBoolean(PREF_DARK_THEME, darkTheme);
+        editor.apply();
+
+        Intent intent = getIntent();
+        finish();
+
+        startActivity(intent);
+    }
+
+
+
 }
