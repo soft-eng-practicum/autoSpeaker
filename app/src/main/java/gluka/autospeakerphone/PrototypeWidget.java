@@ -30,7 +30,6 @@ public class PrototypeWidget extends AppWidgetProvider
     protected ComponentName componentName;
     protected static ImageButton imageButton;
     protected static int widgetNum;
-    protected AutoSpeakerListener autoSpeakerListener;
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -114,7 +113,7 @@ public class PrototypeWidget extends AppWidgetProvider
      */
     protected void appSwitch(Context context, Intent intent)
     {
-        autoSpeakerListener = new AutoSpeakerListener();
+        AutoSpeakerListener autoSpeakerListener = new AutoSpeakerListener();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),R.layout.prototype_widget);
         isSpeakerphoneOn = generateSwitch(context);
@@ -125,7 +124,13 @@ public class PrototypeWidget extends AppWidgetProvider
             Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeron);
-            autoSpeakerListener.onReceive(context,intent);
+            try {
+                autoSpeakerListener.onReceive(context, intent);
+            }
+            catch(NullPointerException e)
+            {
+                Log.d(TAG, "NullPointerException");
+            }
             Toast.makeText(context.getApplicationContext(),"ON",Toast.LENGTH_SHORT).show();
             Log.d(TAG,"appSwitch State: setChecked = " + true);
         }
@@ -135,7 +140,13 @@ public class PrototypeWidget extends AppWidgetProvider
             Log.d(TAG,"appSwitch State: isSwitchOn = " + isSwitchOn);
             // AppWidget speaker image on
             remoteViews.setImageViewResource(R.id.imageButton, R.drawable.autospeakeroff);
-            autoSpeakerListener.onReceive(context,intent);
+            try {
+                autoSpeakerListener.onReceive(context, intent);
+            }
+            catch(NullPointerException e)
+            {
+                Log.d(TAG, "NullPointerException");
+            }
             Toast.makeText(context.getApplicationContext(),"OFF",Toast.LENGTH_SHORT).show();
             Log.d(TAG,"appSwitch State: setChecked = " + false);
         }

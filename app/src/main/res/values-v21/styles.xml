@@ -15,12 +15,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorSecondary">@color/colorAccent</item>
         <item name="android:textColorSecondaryInverse">@android:color/background_light</item>
-
-
-
-
     </style>
-
 
     <style name="AppCompatBlind" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@android:color/holo_orange_dark</item>
@@ -39,7 +34,12 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:statusBarColor">@android:color/holo_orange_dark</item>
 
+    </style>
 
-
+    <style name="AppThemeMain.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

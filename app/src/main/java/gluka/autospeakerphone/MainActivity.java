@@ -1,12 +1,20 @@
 package gluka.autospeakerphone;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +22,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import static android.Manifest.permission.MODIFY_AUDIO_SETTINGS;
+import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,29 +32,39 @@ public class MainActivity extends AppCompatActivity {
     protected static boolean setChecked = true;
     private Context context;
     private Intent intent;
+    private View view;
     private AutoSpeakerListener autoSpeakerListener;
     protected static Switch switch1;
     private static final String PREFS_NAME = "prefs";
     private static final String PREF_DARK_THEME = "dark_theme";
-    Switch blindswitch;
     protected static SharedPreferences prefs = null;
+    private static final int PERMISSION_REQUEST_CODE = 200;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        // Request Permissions
+        if (!checkPermission())
+        {
+            requestPermission();
+        }
 
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
 
         if(useDarkTheme) {
             setTheme(R.style.AppCompatBlind);
-
         }
-        super.onCreate(savedInstanceState);
+
        //
        // int theme = loadTheme();
        // this.setTheme(theme);
         //getWindow().getContext().setTheme(loadTheme());
-        setContentView(R.layout.activity_main);
+
         final Button about = (Button) findViewById(R.id.aboutBtn);
         final Button favList = (Button)findViewById(R.id.favList);
         final Button feedback = (Button) findViewById(R.id.feedbackBtn);
@@ -215,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("Theme",theme);
         //editor.apply();
     }
+
     private void toggleTheme(boolean darkTheme) {
         SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
         editor.putBoolean(PREF_DARK_THEME, darkTheme);
@@ -226,6 +247,64 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), MODIFY_AUDIO_SETTINGS);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{MODIFY_AUDIO_SETTINGS, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted && cameraAccepted)
+                        Snackbar.make(this.findViewById(android.R.id.content), "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
+                    else {
+
+                        Snackbar.make(this.findViewById(android.R.id.content), "Permission Denied, You cannot access location data and camera.", Snackbar.LENGTH_LONG).show();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(MODIFY_AUDIO_SETTINGS)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{MODIFY_AUDIO_SETTINGS, READ_PHONE_STATE},
+                                                            PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+                    }
+                }
 
 
+                break;
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
 }

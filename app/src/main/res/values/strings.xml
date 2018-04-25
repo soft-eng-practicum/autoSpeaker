@@ -2,4 +2,5 @@
     <string name="app_name">AutoSpeakerPhone</string>
     <string name="appwidget_text">SPEAKER</string>
     <string name="add_widget">Add widget</string>
+    <string name="action_settings">Settings</string>
 </resources>
