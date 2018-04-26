@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppThemeMain" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/Dark_green</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/Dark_green</item>
+        <item name="android:colorBackground">@color/Dark_grey</item>
+        <item name="android:colorButtonNormal">@color/Dark_green</item>
+        <item name="android:colorPrimaryDark">@color/colorAccent</item>
+        <item name="android:textColorPrimaryInverse">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/background_light</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorSecondaryInverse">@android:color/background_light</item>
+
+
+
+
+    </style>
+
+
+    <style name="AppCompatBlind" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@android:color/holo_orange_dark</item>
+        <item name="colorAccent">@android:color/holo_orange_light</item>
+        <item name="android:windowBackground">@android:color/background_dark</item>
+        <item name="android:textColorSecondary">@android:color/holo_orange_dark</item>
+        <item name="android:textColorPrimaryInverse">@android:color/holo_orange_dark</item>
+        <item name="colorPrimaryDark">@android:color/holo_orange_light</item>
+        <item name="android:textColorPrimary">@android:color/holo_orange_dark</item>
+        <item name="android:textColorSecondaryInverse">@android:color/background_dark</item>
+        <item name="android:textAppearanceButton">@android:color/holo_orange_dark</item>
+        <item name="colorButtonNormal">@android:color/holo_orange_dark</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="android:colorButtonNormal">@android:color/holo_orange_dark</item>
+        <item name="android:colorPrimary">@android:color/holo_orange_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/holo_orange_dark</item>
+
+
+
+    </style>
+</resources>
