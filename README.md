@@ -25,3 +25,6 @@
     <li>Skype</li>
     <li>Discord</li>
 </ul>
+
+## Demo Video
+[Demo Video](https://youtu.be/SqitDTqJCWw "Demo Video")
